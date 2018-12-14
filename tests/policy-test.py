@@ -26,7 +26,7 @@ class PolicyTest(unittest.TestCase):
             'qazwsxrfvTG94@$':  set(),
         }
 
-        for password, expects in passwords.items():
+        for password, expects in list(passwords.items()):
             self.assertEqual(
                 {t.name() for t in policy.test(password)},
                 expects,

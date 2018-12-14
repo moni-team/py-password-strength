@@ -9,23 +9,23 @@ class StatsTest(unittest.TestCase):
 
     def test_statistics(self):
         self.assertEqual(PasswordStats('123444').alphabet, set('1234'))
-        self.assertEqual(PasswordStats(u'!аб!').alphabet, set(u'!аб'))
+        self.assertEqual(PasswordStats('!аб!').alphabet, set('!аб'))
 
         self.assertEqual(PasswordStats('123444').alphabet_cardinality, 4)
-        self.assertEqual(PasswordStats(u'!аб!').alphabet_cardinality, 3)
+        self.assertEqual(PasswordStats('!аб!').alphabet_cardinality, 3)
 
         self.assertEqual(
-            dict(PasswordStats(u'aAA111!!!!°°°°°      \0').char_categories_detailed),
+            dict(PasswordStats('aAA111!!!!°°°°°      \0').char_categories_detailed),
             {'Ll': 1, 'Lu': 2, 'Nd': 3, 'Po': 4, 'So': 5, 'Zs': 6, 'Cc': 1}
         )
 
         self.assertEqual(
-            dict(PasswordStats(u'aAA111!!!!°°°°°      \0').char_categories),
+            dict(PasswordStats('aAA111!!!!°°°°°      \0').char_categories),
             {'L': 3, 'N': 3, 'P': 4, 'S': 5, 'Z': 6, 'C': 1}
         )
 
     def test_count(self):
-        s = PasswordStats(u'aAA111!!!!°°°°°      \0')
+        s = PasswordStats('aAA111!!!!°°°°°      \0')
 
         self.assertEqual(s.length, 22)
         self.assertEqual(s.letters, 3)
@@ -43,10 +43,10 @@ class StatsTest(unittest.TestCase):
         p58 = 'abcdefgh!@#$%^&'
         p89 = 'correcthorsebatterystaple'
 
-        p160  = ''.join(unichr(n) for n in range(0, 32))
-        p384  = ''.join(unichr(n) for n in range(0, 64))
-        p896  = ''.join(unichr(n) for n in range(0, 128))
-        p2048 = ''.join(unichr(n) for n in range(0, 256))
+        p160  = ''.join(chr(n) for n in range(0, 32))
+        p384  = ''.join(chr(n) for n in range(0, 64))
+        p896  = ''.join(chr(n) for n in range(0, 128))
+        p2048 = ''.join(chr(n) for n in range(0, 256))
 
         self.assertEqual(PasswordStats(p2).combinations,  4)
         self.assertEqual(PasswordStats(p8).combinations,  256)

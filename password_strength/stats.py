@@ -1,11 +1,11 @@
-from __future__ import division
+
 
 import unicodedata
 from collections import Counter
 from math import log
 import re
 from functools import wraps
-from itertools import izip, takewhile
+from itertools import takewhile
 
 
 def cached_property(f):
@@ -27,7 +27,7 @@ class PasswordStats(object):
     """
 
     def __init__(self, password):
-        self.password = unicode(password)
+        self.password = str(password)
 
     #region Statistics
 
@@ -56,7 +56,7 @@ class PasswordStats(object):
         :returns: Counter( unicode-character-category: count )
         :rtype: collections.Counter
         """
-        return Counter(map(unicodedata.category, self.password))
+        return Counter(list(map(unicodedata.category, self.password)))
 
     @cached_property
     def char_categories(self):
@@ -76,7 +76,7 @@ class PasswordStats(object):
         :rtype: collections.Counter
         """
         c = Counter()
-        for cat, n in self.char_categories_detailed.items():
+        for cat, n in list(self.char_categories_detailed.items()):
             c[cat[0]] += n
         return c
 
@@ -131,7 +131,7 @@ class PasswordStats(object):
         :type categories: Iterable
         :rtype: int
         """
-        return sum(map(lambda (cat, n): int(cat in categories)*n, self.char_categories.items()))
+        return sum([int(cat_n[0] in categories)*cat_n[1] for cat_n in list(self.char_categories.items())])
 
     def count_except(self, *categories):
         """ Count characters of all classes except the specified ones
@@ -140,7 +140,7 @@ class PasswordStats(object):
         :type categories: Iterable
         :rtype: int
         """
-        return sum(map(lambda (cat, n): int(cat not in categories) * n, self.char_categories.items()))
+        return sum([int(cat_n1[0] not in categories) * cat_n1[1] for cat_n1 in list(self.char_categories.items())])
 
     @cached_property
     def special_characters(self):
@@ -292,7 +292,7 @@ class PasswordStats(object):
 
                 # Find the longest common prefix
                 common_here = ''
-                for a, b in izip(password, self._sequences[j:]):
+                for a, b in zip(password, self._sequences[j:]):
                     if a != b: break
                     else: common_here += a
 

@@ -26,4 +26,4 @@ data = {
     'ATest': doc(password_strength.tests.ATest),
 }
 
-print json.dumps(data, indent=2)
+print(json.dumps(data, indent=2))

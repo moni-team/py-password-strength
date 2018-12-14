@@ -16,7 +16,7 @@ class ATestMeta(type):
         return cls
 
 
-class ATest(object):
+class ATest(object, metaclass=ATestMeta):
     """ ATest is a base class for password tests.
 
         To create a custom test, just subclass it and implement the following methods:
@@ -24,7 +24,6 @@ class ATest(object):
         * __init__() that takes configuration arguments
         * test(ps) that tests a password, where `ps` is a `PasswordStats` object.
     """
-    __metaclass__ = ATestMeta
 
     #: Test classes map: { name : class }
     test_classes = {}

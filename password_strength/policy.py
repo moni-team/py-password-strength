@@ -37,7 +37,7 @@ class PasswordPolicy(object):
         """
         tests = [ _tests.ATest.test_classes[name](
                       *(args if isinstance(args, (list, tuple)) else [args])
-                  ) for name, args in tests.items() ]
+                  ) for name, args in list(tests.items()) ]
         return cls(*tests)
 
     def __init__(self, *tests):
@@ -48,7 +48,7 @@ class PasswordPolicy(object):
         """
         self._tests = tests
 
-        assert all(map(lambda c: isinstance(c, _tests.ATest), tests)), 'Tests should be instances of password_strength.tests.ATest'
+        assert all([isinstance(c, _tests.ATest) for c in tests]), 'Tests should be instances of password_strength.tests.ATest'
 
     def password(self, password):
         """ Get password stats bound to the tests declared in this policy.
